@@ -1,0 +1,22 @@
+.menu-edit-header{
+    margin-top: 10px;
+}
+.btn-link{
+    font-size: 24px !important;
+    color: black !important;
+    transition: color 0.5 ease;
+    &:hover{
+        text-decoration: none !important;
+        color: #ffc107 !important;
+    }
+    &:focus{
+        box-shadow: none !important;
+        text-decoration: none !important;
+    }
+}
+.MuiTypography-root.accordion-header{
+    font-size: 2rem;
+}
+.MuiAccordionDetails-root{
+    flex-direction: column;
+}

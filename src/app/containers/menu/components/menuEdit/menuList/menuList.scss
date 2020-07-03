@@ -1,0 +1,36 @@
+.list-group-item{
+    display: flex !important;
+    justify-content: space-between;
+    h5 {
+        font-weight: bold;
+    }
+    button{
+        height: 30px;
+        width: 30px;
+    }
+    p{
+        margin: 0;
+    }
+}
+
+.item-enter-active{
+    animation: item 800ms ease-in alternate-reverse;
+}
+
+.item-exit-active{
+    animation: item 800ms ease-out forwards;
+}
+
+@keyframes item {
+    0%{
+        transform: translateX(0);
+    }
+    30%{
+        opacity: 0.7;
+        transform: translateX(30px);
+    }
+    100%{
+        opacity: 0;
+        transform: translateX(-200px);
+    }
+}
