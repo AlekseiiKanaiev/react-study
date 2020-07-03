@@ -11,7 +11,7 @@ export const AddForm = (props) => {
     const addHandler = (e) => {
         e.preventDefault();
         if(!name || !description || !img){
-            dispatch(showAlert({type: 'danger', text: 'You must fill all inputs'}))
+            dispatch(showAlert({type: 'danger', text: 'You must fill all inputs'}));
             return;
         }
         props.submitHandler({name, description, img});
@@ -34,7 +34,7 @@ export const AddForm = (props) => {
                 <label htmlFor="exampleInputImage">Image link</label>
                 <input type="text" className="form-control" id="exampleInputImage" value={img} onChange={(e)=>setImage(e.target.value)} />
             </div>
-            <button type="submit" className="btn btn-primary">ADD</button>
+            <button type="submit" className="btn btn-primary" disabled={props.isDisabled}>ADD</button>
         </form>
     );
 }

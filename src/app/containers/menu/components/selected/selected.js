@@ -28,24 +28,24 @@ export const Selected = (props) => {
                 <Table className='table' aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                    <TableCell>Type</TableCell>
-                    <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">Description</TableCell>
-                    <TableCell align="right">Image</TableCell>
+                        <TableCell>Type</TableCell>
+                        <TableCell align="right">Name</TableCell>
+                        <TableCell align="right">Description</TableCell>
+                        <TableCell align="right">Image</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {state.map((item) => (
-                    <TableRow key={item.id}>
-                        <TableCell component="th" scope="row">
-                        {item.type}
-                        </TableCell>
-                        <TableCell align="right">{item.name}</TableCell>
-                        <TableCell align="right">{item.description}</TableCell>
-                        <TableCell align="right">
-                        <img src={item.img} alt={item.name} className='image'/>
-                        </TableCell>
-                    </TableRow>
+                        <TableRow key={item.id}>
+                            <TableCell component="th" scope="row">
+                            {item.type}
+                            </TableCell>
+                            <TableCell align="right">{item.name}</TableCell>
+                            <TableCell align="right">{item.description}</TableCell>
+                            <TableCell align="right">
+                                <img src={item.img} alt={item.name} className='image'/>
+                            </TableCell>
+                        </TableRow>
                     ))}
                 </TableBody>
                 </Table>

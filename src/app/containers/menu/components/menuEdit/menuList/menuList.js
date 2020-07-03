@@ -16,7 +16,7 @@ export const MenuList = (props) => {
                         <h5>{item.name}</h5>
                         <p>{item.description}</p>
                     </div>
-                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => props.deleteHandler(item.id)}>&times;</button>
+                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => props.deleteHandler(item.id)} disabled={props.isDisabled}>&times;</button>
                 </li>
             </CSSTransition>
         ))}

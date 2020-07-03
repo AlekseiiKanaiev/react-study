@@ -54,12 +54,12 @@ export const MenuEdit = (props) => {
                     <AccordionDetails>
                         <h3 className='menu-edit-header'>Breakfast list</h3>
                         {menu.loaded ? 
-                            <MenuList menu={menu.breakfast} deleteHandler={(id) => dispatch(deleteBreakfast(id))}/>
+                            <MenuList menu={menu.breakfast} isDisabled={menu.loading} deleteHandler={(id) => dispatch(deleteBreakfast(id))}/>
                             :
                             <Loader />
                         }
                         <h3 className='menu-edit-header'>Add breakfast</h3>
-                        <AddForm submitHandler={(item) => dispatch(addBreakfast(item))}/>
+                        <AddForm isDisabled={menu.loading} submitHandler={(item) => dispatch(addBreakfast(item))}/>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -73,12 +73,12 @@ export const MenuEdit = (props) => {
                     <AccordionDetails>
                         <h3 className='menu-edit-header'>Dinner list</h3>
                         {menu.loaded ? 
-                            <MenuList menu={menu.dinner} deleteHandler={(id) => dispatch(deleteDinner(id))}/>
+                            <MenuList menu={menu.dinner} isDisabled={menu.loading} deleteHandler={(id) => dispatch(deleteDinner(id))}/>
                             :
                             <Loader />
                         }
                         <h3 className='menu-edit-header'>Add dinner</h3>
-                        <AddForm submitHandler={(item) => dispatch(addDinner(item))}/>
+                        <AddForm isDisabled={menu.loading} submitHandler={(item) => dispatch(addDinner(item))}/>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -92,12 +92,12 @@ export const MenuEdit = (props) => {
                     <AccordionDetails>
                         <h3 className='menu-edit-header'>Supper list</h3>
                         {menu.loaded ?
-                            <MenuList menu={menu.supper} deleteHandler={(id) => dispatch(deleteSupper(id))}/>
+                            <MenuList menu={menu.supper} isDisabled={menu.loading} deleteHandler={(id) => dispatch(deleteSupper(id))}/>
                             :
                             <Loader />
                         }
                         <h3 className='menu-edit-header'>Add supper</h3>
-                        <AddForm submitHandler={(item) => dispatch(addSupper(item))}/>
+                        <AddForm isDisabled={menu.loading} submitHandler={(item) => dispatch(addSupper(item))}/>
                     </AccordionDetails>
                 </Accordion>
             </div>

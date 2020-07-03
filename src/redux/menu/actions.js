@@ -9,7 +9,9 @@ import {
     MENU_LOADED,
     MENU_DELETE_MENU_BREAKFAST,
     MENU_DELETE_MENU_DINNER,
-    MENU_DELETE_MENU_SUPPER
+    MENU_DELETE_MENU_SUPPER,
+    MENU_SET_LOADING,
+    MENU_REMOVE_LOADING
 } from "./constants";
 
 export const fetchMenu = () => {
@@ -21,6 +23,13 @@ export const fetchMenu = () => {
 
 export const menuLoaded = () => {
     return ({type: MENU_LOADED})
+}
+
+export const menuSetLoading = () => {
+    return ({type: MENU_SET_LOADING})
+}
+export const menuRemoveLoading = () => {
+    return ({type: MENU_REMOVE_LOADING})
 }
 
 export const addBreakfast = (item) => {

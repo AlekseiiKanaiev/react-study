@@ -32,7 +32,7 @@ export const FirebaseStateFunction = (props) => {
     const dispatchRedux = useDispatch();
     // app.initializeApp(config);
     // const firibaseAuth = app.auth();
-    console.log(props);
+    // console.log(props);
 
     if (props.user?.displayName) {
         // console.log(props.user);
@@ -54,7 +54,7 @@ export const FirebaseStateFunction = (props) => {
 
     function setUserLocal(user) {
         console.log('set user');
-        console.log(user);
+        // console.log(user);
 
         window.localStorage.setItem('user', JSON.stringify(user));
 
@@ -99,7 +99,7 @@ export const FirebaseStateFunction = (props) => {
         showLoader();
         try{
             const result = await axios.get(`${url}/notes.json`);
-            console.log('fetch', result.data);
+            // console.log('fetch', result.data);
             if (result.data){
                 const payload = Object.keys(result.data).map(key => ({...result.data[key], id: key}));
                 dispatch({type: FETCH_NOTES, payload});
@@ -114,7 +114,7 @@ export const FirebaseStateFunction = (props) => {
     const login = (email, pass) => {
         return props.firebase.auth().signInWithEmailAndPassword(email, pass)
         .then((user) => {
-            console.log(user);
+            // console.log(user);
             // dispatchRedux(setUser(user));
             // window.localStorage.setItem('user', JSON.stringify(user));
             setUserLocal(user.user);
@@ -134,7 +134,7 @@ export const FirebaseStateFunction = (props) => {
     const register = (email, pass, userName='guest', roles = '') => {
         return props.firebase.auth().createUserWithEmailAndPassword(email, pass)
         .then(async(user) => {
-            console.log(user);
+            // console.log(user);
             // dispatchRedux(setUser(user));
             // window.localStorage.setItem('user', user);
             const newUser = {email, roles, userName};
@@ -142,7 +142,7 @@ export const FirebaseStateFunction = (props) => {
                 const updUSer = props.firebase.auth().currentUser;
                 updUSer.updateProfile({displayName: userName})
                 .then(() => {
-                    console.log(user);
+                    // console.log(user);
                     // setUser.reauthenticateWithCredential({email, pass});
                     // const updUser = props.firebase.auth().currentUser;
                     // console.log(updUser);
@@ -152,7 +152,7 @@ export const FirebaseStateFunction = (props) => {
                 })
                 .catch((e) => console.log(e));
                 const response = await axios.post(`${url}/users.json`, newUser);
-                console.log('add user', response);
+                // console.log('add user', response);
             } catch(e) {
                 console.log(e);
                 // throw new Error('Server Error: ' + e.message);

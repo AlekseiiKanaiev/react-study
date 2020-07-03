@@ -43,7 +43,7 @@ export const Navbar = (props) => {
         logout().then(() => window.location.assign('/'));
     }
     // const [user, setUser] = useState(userRec);
-    console.log(user);
+    // console.log(user);
     return (
         <nav className = 'navbar navbar-dark navbar-expand-lg bg-primary'>
             <div className= 'navbar-brand'>

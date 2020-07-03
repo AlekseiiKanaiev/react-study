@@ -16,7 +16,7 @@ import {
     MENU_DELETE_MENU_DINNER,
     MENU_DELETE_MENU_SUPPER
 } from "./constants";
-import {setBreakfast, setDinner, setSupper, menuLoaded} from './actions'
+import {setBreakfast, setDinner, setSupper, menuLoaded, menuSetLoading, menuRemoveLoading} from './actions'
 
 const url = process.env.REACT_APP_DB_URL;
 
@@ -38,14 +38,14 @@ function* fetchMenu() {
         const response = yield call(getMenu);
         let payload = [];
         response.forEach(res => {
-            console.log(res.data);
+            // console.log(res.data);
             if (res.data){
                 payload.push(Object.keys(res.data).map(key => ({...res.data[key], id: key})));
                 // dispatch({type: FETCH_NOTES, payload});
                 // hideLoader();
             }
         });
-        console.log(payload);
+        // console.log(payload);
         if (payload[0]) {yield put(setBreakfast(payload[0]));}
         if (payload[1]) {yield put(setDinner(payload[1]));}
         if (payload[2]) {yield put(setSupper(payload[2]));}
@@ -65,7 +65,7 @@ async function getMenu(){
 }
 
 function* addMenuItem (action) {
-    console.log(action);
+    // console.log(action);
     let type = null;
     let actionType = null;
     switch (action.type) {
@@ -87,16 +87,18 @@ function* addMenuItem (action) {
     if (!type || !actionType){
         return
     }
+    yield put(menuSetLoading());
     const payload = yield call(postMenuItem, action.payload, type);
-    console.log(payload);
+    // console.log(payload);
     yield put({type: actionType, payload});
     yield put(showAlert({type: 'success', text: `Add new ${type}`}));
+    yield put(menuRemoveLoading());
 }
 
 const postMenuItem = async (item, type) => {
     try{
         const response = await axios.post(`${url}/menu_${type}.json`, item);
-        console.log('add', response);
+        // console.log('add', response);
         const payload = {...item, id: response.data.name};
         return payload;
         // console.log(payload);
@@ -108,7 +110,7 @@ const postMenuItem = async (item, type) => {
 }
 
 function*  removeMenuItem(action){
-    console.log(action);
+    // console.log(action);
     let type = null;
     let actionType = null;
     switch (action.type) {
@@ -130,10 +132,11 @@ function*  removeMenuItem(action){
     if (!type || !actionType){
         return;
     }
-    console.log(1);
+    yield put(menuSetLoading());
     yield call(deleteMenuItem, type, action.payload);
     yield put({type: actionType, payload: action.payload});
     yield put(showAlert({type: 'warning', text: `Deleted ${type} item`}));
+    yield put(menuRemoveLoading());
 }
 const deleteMenuItem = async (type, id) => {
     await axios.delete(`${url}/menu_${type}/${id}.json`);
