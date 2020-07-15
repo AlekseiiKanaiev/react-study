@@ -16,6 +16,7 @@ export const hideLoader = () => {
 
 export const showAlert = (alert, delay = 2000) => {
     // return ({type: APP_SHOW_ALERT, payload: alert});
+    // console.log(alert);
     return (dispatch) => {
         dispatch({type: APP_SHOW_ALERT, payload: alert});
         setTimeout(() => dispatch(hideAlertInner()), delay);

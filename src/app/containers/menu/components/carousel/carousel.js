@@ -1,29 +1,48 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
 import './carousel.scss';
 
 export const Carousel = (props) => {
     const [select, setSelect] = useState('');
     const carousel = useRef(null);
 
+    useEffect(() => {
+
+        if (props.selectedMenu.length) {
+            const selected = props.selectedMenu.find(el => el.type === props.type);
+            // console.log(selected);
+            if (selected) {
+                const id = selected.id;
+                // console.log(id);
+                const children = Array.from(carousel.current.children);
+                // console.log(children);
+                const selectItem = children.find(el => el.id === id);
+                // console.log(selectItem);
+                children.forEach(child => child.classList.remove('active'));
+                selectItem.classList.add('active');
+                onSelect(selected);
+            }
+        }
+    }, [])
+
     const onSelect = (item) => {
         setSelect(item.name);
         const imgs = Array.from(carousel.current.querySelectorAll('.img'));
-        const img = document.getElementById(item.id);
+        const img = document.getElementById(`img-${item.id}`);
         if (img.classList.contains('focused')) {
             img.classList.remove('focused');
         } else {
             imgs.forEach(el => el.classList.remove('focused'));
             img.classList.add('focused');
         }
-        const selected = {...item , type: props.type};
+        const selected = {...item, type: props.type};
         props.onSelect(selected);
     }
 
     const setRandom = () => {
         const rand = Math.floor(Math.random()*props.menu.length);
-        const cildren = Array.from(carousel.current.children);
-        cildren.forEach(child => child.classList.remove('active'));
-        cildren[rand].classList.add('active');
+        const children = Array.from(carousel.current.children);
+        children.forEach(child => child.classList.remove('active'));
+        children[rand].classList.add('active');
         onSelect(props.menu[rand]);
     }
     return (
@@ -34,8 +53,8 @@ export const Carousel = (props) => {
                 </ol>
                 <div className="carousel-inner" ref={carousel}>
                     {props.menu.map((item, i) => (
-                        <div key={item.id} className={`carousel-item ${(i === 0)? 'active' : ''}`} onClick={() => onSelect(item)}>
-                            <img src={item.img} className="d-block w-20 img" alt={item.name} id = {item.id}/>
+                        <div key={item.id} className={`carousel-item ${(i === 0)? 'active' : ''}`} onClick={() => onSelect(item)} id = {item.id}>
+                            <img src={item.img} className="d-block w-20 img" alt={item.name} id = {`img-${item.id}`}/>
                             <div className="carousel-caption d-none d-md-block description">
                                 <h5>{item.name}</h5>
                                 <p>{item.description}</p>

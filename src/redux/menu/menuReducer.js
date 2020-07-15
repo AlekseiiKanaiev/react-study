@@ -7,13 +7,15 @@ import {
     MENU_REMOVE_MENU_SUPPER,
     MENU_LOADED,
     MENU_SET_LOADING,
-    MENU_REMOVE_LOADING
+    MENU_REMOVE_LOADING,
+    MENU_SET_SELECTED_MENU
 } from "./constants";
 
 const initialState = {
     breakfast: [],
     dinner: [],
     supper: [],
+    selectedMenu: [],
     loaded: false,
     loading: false
 }
@@ -38,6 +40,8 @@ export const menuReducer = (state = initialState, action) => {
             return {...state, dinner: state.dinner.filter(item => item.id !== action.payload)}
         case MENU_REMOVE_MENU_SUPPER:
             return {...state, supper: state.supper.filter(item => item.id !== action.payload)}
+        case MENU_SET_SELECTED_MENU:
+            return {...state, selectedMenu: action.payload}
         default:
             return state;
     }

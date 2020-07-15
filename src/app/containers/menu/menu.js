@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchMenu } from '../../../redux/menu/actions';
+import { fetchMenu, setSelectedMenu } from '../../../redux/menu/actions';
 import { Carousel } from './components/carousel/carousel';
 import { Loader } from '../../components/loader';
 // import {menu} from './data';
@@ -13,6 +13,7 @@ export const Menu = (props) => {
     const dispatch = useDispatch();
     
     const onSelect = (item) => {
+        console.log(item);
         const index = selected.findIndex(el => el.type === item.type);
         // console.log(index);
         if (index !== -1) {
@@ -36,7 +37,8 @@ export const Menu = (props) => {
             return 0;
         })
         // console.log(selected);
-        props.history.push('/selected', selected);
+        dispatch(setSelectedMenu(selected));
+        props.history.push('/selected');
     }
 
     useEffect(() => {
@@ -54,19 +56,19 @@ export const Menu = (props) => {
                     {menu.breakfast.length > 0 && 
                     <div>
                         <h3>Choose breakfast</h3>
-                        <Carousel menu={menu.breakfast} type = 'breakfast' onSelect={onSelect}/>
+                        <Carousel menu={menu.breakfast} type = 'breakfast' selectedMenu = {menu.selectedMenu} onSelect={onSelect}/>
                     </div>
                     }
                     {menu.dinner.length > 0 && 
                         <div>
                             <h3>Choose dinner</h3>
-                            <Carousel menu={menu.dinner} type = 'dinner' onSelect={onSelect}/>
+                            <Carousel menu={menu.dinner} type = 'dinner' selectedMenu = {menu.selectedMenu} onSelect={onSelect}/>
                         </div>
                     }
                     {menu.supper.length > 0 && 
                         <div>
                             <h3>Choose supper</h3>
-                            <Carousel menu={menu.supper} type = 'supper' onSelect={onSelect}/>
+                            <Carousel menu={menu.supper} type = 'supper' selectedMenu = {menu.selectedMenu} onSelect={onSelect}/>
                         </div>
                     }
                 </Fragment>

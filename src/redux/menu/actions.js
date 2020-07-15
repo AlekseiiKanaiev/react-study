@@ -11,7 +11,8 @@ import {
     MENU_DELETE_MENU_DINNER,
     MENU_DELETE_MENU_SUPPER,
     MENU_SET_LOADING,
-    MENU_REMOVE_LOADING
+    MENU_REMOVE_LOADING,
+    MENU_SET_SELECTED_MENU
 } from "./constants";
 
 export const fetchMenu = () => {
@@ -60,4 +61,8 @@ export const deleteDinner = (id) => {
 }
 export const deleteSupper = (id) => {
     return ({type: MENU_DELETE_MENU_SUPPER, payload: id})
+}
+
+export const setSelectedMenu = (menu) => {
+    return ({type: MENU_SET_SELECTED_MENU, payload: menu})
 }
