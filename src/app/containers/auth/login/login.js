@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { FirebaseContext } from '../../../../context/firebase/firebase.context';
 import { SimpleAlert } from '../../../components/simpleAlert';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showAlert } from '../../../../redux/app/actions';
 // import { Redirect } from 'react-router-dom';
 import './login.scss'
@@ -12,15 +12,17 @@ export const Login = (props) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     console.log(props);
-    console.log(props.history);
-    console.log(props.match);
+    // console.log(props.history);
+    // console.log(props.match);
 
+    // const user = useSelector(state => state.app.user);
     const user = window.localStorage.getItem('user');
+    // const user = useSelector(state => state.app.user) || JSON.parse(window.localStorage.getItem('user'));
+    console.log(user);
 
     const verifyEmail = (email) => {
         return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
     }
-
 
     const sumbitHandler = (e) => {
         e.preventDefault();

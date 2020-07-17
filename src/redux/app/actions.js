@@ -4,7 +4,8 @@ import {
     APP_SHOW_ALERT,
     APP_HIDE_ALERT,
     APP_SET_USER,
-    APP_REMOVE_USER
+    APP_REMOVE_USER,
+    APP_UPDATE_USER
 } from "./constants";
 
 export const showLoader = () => {
@@ -40,4 +41,8 @@ export const setUser = (user) => {
 
 export const removeUser = () => {
     return ({type: APP_REMOVE_USER})
+}
+
+export const updateUser = (user) => {
+    return ({type: APP_UPDATE_USER, payload: user});
 }

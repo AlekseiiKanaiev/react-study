@@ -20,7 +20,9 @@ export const MenuEdit = (props) => {
     // const {logout} = useContext(FirebaseContext);
     const menu = useSelector(state => state.menu);
     // const user = useSelector(state => state.app.user);
-    const user = window.localStorage.getItem('user');
+    // const {user} = useSelector(state => state.app);
+    const user = useSelector(state => state.app.user) || JSON.parse(window.localStorage.getItem('user'));
+    
     const dispatch = useDispatch();
 
     // console.log(user);

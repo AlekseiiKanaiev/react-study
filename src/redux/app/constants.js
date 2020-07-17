@@ -6,3 +6,5 @@ export const APP_HIDE_ALERT = 'APP/HIDE_ALERT';
 
 export const APP_SET_USER = 'APP/SET_USER';
 export const APP_REMOVE_USER = 'APP/REMOVE_USER'
+
+export const APP_UPDATE_USER = 'APP/UPDATE_USER';

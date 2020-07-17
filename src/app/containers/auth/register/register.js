@@ -16,7 +16,7 @@ export const Register = (props) => {
 
     // const user = useSelector(state => state.app.user);
     const user = window.localStorage.getItem('user');
-
+    // const user = useSelector(state => state.app.user) || JSON.parse(window.localStorage.getItem('user'));
 
     const verifyEmail = (email) => {
         return (/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email));

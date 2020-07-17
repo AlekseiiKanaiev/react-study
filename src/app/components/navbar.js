@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import {
     // Menu,
     MenuList,
@@ -9,17 +9,17 @@ import {
     Grow,
     Paper,
     ClickAwayListener,
-} from '@material-ui/core'
+} from '@material-ui/core';
 import { FirebaseContext } from '../../context/firebase/firebase.context';
 import { useSelector } from 'react-redux';
-
 
 export const Navbar = (props) => {
     const {logout} = useContext(FirebaseContext);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
     const user = useSelector(state => state.app.user) || JSON.parse(window.localStorage.getItem('user'));
-    
+    // const user = useSelector(state => state.app.user);
+
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -40,7 +40,7 @@ export const Navbar = (props) => {
     };
     const handleLogout = (e) => {
         handleClose(e);
-        logout().then(() => window.location.assign('/'));
+        logout().then(() => console.log('logout'));
     }
     // const [user, setUser] = useState(userRec);
     // console.log(user);
@@ -78,7 +78,7 @@ export const Navbar = (props) => {
                     className = 'user-button'
                     id = 'user-button'
                 >
-                    {user.displayName}
+                    {user.userName || user.displayName}
                 </Button>
                 <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (
@@ -90,6 +90,7 @@ export const Navbar = (props) => {
                             <ClickAwayListener onClickAway={handleClose}>
                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                    <MenuItem onClick={() => window.location.assign('my-menus')}>My menus</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                         </Paper>

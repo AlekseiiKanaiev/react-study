@@ -34,10 +34,9 @@ export const FirebaseStateFunction = (props) => {
     // const firibaseAuth = app.auth();
     // console.log(props);
 
+
     if (props.user?.displayName) {
-        // console.log(props.user);
-        // dispatchRedux(setUser(props.user));
-        // window.localStorage.setItem('user', JSON.stringify(props.user));
+        console.log(props.user);
         setUserLocal(props.user);
     }
 
@@ -48,16 +47,29 @@ export const FirebaseStateFunction = (props) => {
     }
     const [state, dispatch] = useReducer(firebaseReducer, initialState);
 
-    // const setUserContext = () => {
-    //     dispatch({type: SET_USER, payload: props.user});
-    // }
+    async function getUser(email){
+        dispatchRedux({type: 'APP/SHOW_LOADER'});
+        try{
+            const response = await axios.get(`${url}/users.json`);
+            Object.keys(response.data).forEach(key => {
+                if (response.data[key].email === email) {
+                    console.log(response.data[key]);
+                    dispatchRedux(setUser({...response.data[key], id: key}));
+                    dispatchRedux({type: 'APP/HIDE_LOADER'});
+                }
+            })
+        }
+        catch(e){
+            dispatchRedux({type: 'APP/HIDE_LOADER'});
+            throw new Error('Server Error: ' + e.message);
+        }
+    }
 
     function setUserLocal(user) {
         console.log('set user');
         // console.log(user);
-
         window.localStorage.setItem('user', JSON.stringify(user));
-
+        getUser(user.email);
     }
 
     const showLoader = () => {
@@ -114,9 +126,7 @@ export const FirebaseStateFunction = (props) => {
     const login = (email, pass) => {
         return props.firebase.auth().signInWithEmailAndPassword(email, pass)
         .then((user) => {
-            // console.log(user);
-            // dispatchRedux(setUser(user));
-            // window.localStorage.setItem('user', JSON.stringify(user));
+            console.log(user);
             setUserLocal(user.user);
             return Promise.resolve();
         });
@@ -124,10 +134,9 @@ export const FirebaseStateFunction = (props) => {
 
     const logout = () => {
         return props.firebase.auth().signOut().then(() => {
-            // dispatchRedux(removeUser());
             window.localStorage.removeItem('user');
             dispatchRedux(removeUser());
-            return Promise.resolve();
+            // return Promise.resolve();
         });
     }
 
@@ -135,24 +144,17 @@ export const FirebaseStateFunction = (props) => {
         return props.firebase.auth().createUserWithEmailAndPassword(email, pass)
         .then(async(user) => {
             // console.log(user);
-            // dispatchRedux(setUser(user));
-            // window.localStorage.setItem('user', user);
             const newUser = {email, roles, userName};
             try{
+                const response = await axios.post(`${url}/users.json`, newUser);
+                console.log(response);
                 const updUSer = props.firebase.auth().currentUser;
                 updUSer.updateProfile({displayName: userName})
                 .then(() => {
-                    // console.log(user);
-                    // setUser.reauthenticateWithCredential({email, pass});
-                    // const updUser = props.firebase.auth().currentUser;
-                    // console.log(updUser);
-                    // window.localStorage.setItem('user', JSON.stringify({displayName: userName}));
+                    console.log(user);
                     setUserLocal(user.user);
-                    dispatchRedux(setUser(user.user));
                 })
                 .catch((e) => console.log(e));
-                const response = await axios.post(`${url}/users.json`, newUser);
-                // console.log('add user', response);
             } catch(e) {
                 console.log(e);
                 // throw new Error('Server Error: ' + e.message);
