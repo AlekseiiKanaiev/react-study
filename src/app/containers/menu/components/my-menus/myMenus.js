@@ -1,18 +1,19 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { TableMenu } from '../tableMenu/tableMenu';
 import {
     Dialog,
     DialogTitle,
     DialogContent,
     DialogContentText,
-    TextField,
     DialogActions,
     Button
 } from '@material-ui/core';
-import { updateUser } from '../../../../../redux/app/actions';
-import './myMenus.scss';
+import { updateUser, showAlert } from '../../../../../redux/app/actions';
 import { Loader } from '../../../../components/loader';
+import { SimpleAlert } from '../../../../components/simpleAlert';
+import './myMenus.scss';
 
 export const MyMenus = (props) => {
     const [index, setIndex] = useState('');
@@ -22,19 +23,13 @@ export const MyMenus = (props) => {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        if (!(user || storedUser)) {
+        if (!user && !storedUser) {
             props.history.push('/login', props.location.pathname);
         }
     }, [user, storedUser]);
 
-    const deleteMenu = (i) => {
+    const handleOpen = (i) => {
         setIndex(i);
-        // storedUser.userMenus.splice(index, 1);
-        // console.log(storedUser);
-        // dispatch(updateUser(storedUser));
-    }
-
-    const handleOpen = () => {
         setOpen(true);
     }
 
@@ -42,33 +37,45 @@ export const MyMenus = (props) => {
         setOpen(false);
     }
 
-    const handleDeleteMenu = () => {
+    const handleDeleteMenu = async() => {
         handleClose();
+        const name = storedUser.userMenus[index].name;
         storedUser.userMenus.splice(index, 1);
-        console.log(storedUser);
+        // console.log(storedUser);
+        const data = Object.assign({}, storedUser);
+        delete data.id;
+        // console.log(data);
+        const url = process.env.REACT_APP_DB_URL;
+        const response = await axios.put(`${url}/users/${storedUser.id}.json`, data);
+        // console.log(response);
         dispatch(updateUser(storedUser));
+        dispatch(showAlert({type: 'warning', text: `Your menu "${name}" has been deleted`}));
     }
 
-    console.log(storedUser);
-    const isMenus = storedUser && storedUser.userMenus.length > 0
+    // console.log(storedUser);
+    const isMenus = storedUser?.userMenus?.length > 0
     return (
         <Fragment>
+            <SimpleAlert/>
             <h2>Saved user menus</h2>
             {loading ? 
                 <Loader />
             :
                 isMenus ? 
                     storedUser.userMenus.map((menu, i) => (
-                        <div key = {i}>
+                        <div key = {menu.date} className='saved-menu'>
                             <div className='header'>
-                                <h3>{menu.name}</h3>
-                                <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleOpen}>&times;</button>
+                                <div>
+                                    <h3>{menu.name}</h3>
+                                    <small>created: {menu.date.split('T')[0]}</small>
+                                </div>
+                                <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleOpen(i)}>&times;</button>
                             </div>
                             <TableMenu  menu = {menu.selectedMenu}/>
                         </div>
                     ))
                 :
-                <p>You haven't got any saved menus</p>
+                    <p>You haven't got any saved menus</p>
             }
             
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

@@ -48,9 +48,10 @@ export const Selected = (props) => {
         // console.log(data);
         const url = process.env.REACT_APP_DB_URL;
         const response = await axios.put(`${url}/users/${updUser.id}.json`, data);
-        console.log(response);
+        // console.log(response);
         dispatch(updateUser(updUser));
         dispatch(showAlert({type: 'success', text: 'Your menu has been saved'}));
+        setName('');
     }
 
     return (
