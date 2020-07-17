@@ -60,7 +60,9 @@ export const Selected = (props) => {
                     <SimpleAlert/>
                     <h2>Selected Menu</h2>
                     <TableMenu menu = {selectedMenu}/>
-                    <button type='button' className='btn btn-success save-button' onClick={handleClickOpen}>Save</button>
+                    {user && 
+                        <button type='button' className='btn btn-success save-button' onClick={handleClickOpen}>Save</button>
+                    }
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                         <DialogContent>

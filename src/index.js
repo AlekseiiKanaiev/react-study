@@ -17,7 +17,7 @@ const saga = createSagaMiddleware();
 const store = createStore(rootReducer, compose(
         applyMiddleware(thunk, forbiddenWordMiddleware, saga),
         // cause error in build version -> comment for deploy
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     ));
 
 function* rootSaga() {
