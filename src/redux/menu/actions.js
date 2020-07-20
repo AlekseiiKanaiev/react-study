@@ -12,7 +12,9 @@ import {
     MENU_DELETE_MENU_SUPPER,
     MENU_SET_LOADING,
     MENU_REMOVE_LOADING,
-    MENU_SET_SELECTED_MENU
+    MENU_SET_SELECTED_MENU,
+    MENU_ADD_MENU_ADMIN,
+    MENU_DELETE_MENU_ADMIN
 } from "./constants";
 
 export const fetchMenu = () => {
@@ -20,6 +22,13 @@ export const fetchMenu = () => {
     return {
         type: MENU_FETCH_MENU
     };
+}
+
+export const addAdminDish = (item) => {
+    return ({type: MENU_ADD_MENU_ADMIN, payload: item})
+}
+export const deleteAdminDish = (id) => {
+    return ({type: MENU_DELETE_MENU_ADMIN, payload: id})
 }
 
 export const menuLoaded = () => {

@@ -1,4 +1,4 @@
-import { APP_SHOW_LOADER, APP_HIDE_LOADER, APP_SHOW_ALERT, APP_HIDE_ALERT, APP_SET_USER, APP_REMOVE_USER, APP_UPDATE_USER } from "./constants"
+import { APP_SHOW_LOADER, APP_HIDE_LOADER, APP_SHOW_ALERT, APP_HIDE_ALERT, APP_SET_USER, APP_REMOVE_USER, APP_UPDATE_USER, APP_UPDATE_USER_SUCCESS } from "./constants"
 
 const initialState = {
     loading:true,
@@ -23,6 +23,7 @@ export const appReducer = (state = initialState, action) => {
             return ({...state, alert: {show: false}});
         case APP_SET_USER:
         case APP_UPDATE_USER:
+        case APP_UPDATE_USER_SUCCESS:
             console.log('set');
             return ({...state, user: action.payload});
         case APP_REMOVE_USER:

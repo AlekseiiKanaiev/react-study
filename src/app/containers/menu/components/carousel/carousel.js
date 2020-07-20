@@ -9,9 +9,9 @@ export const Carousel = (props) => {
 
         if (props.selectedMenu.length) {
             const selected = props.selectedMenu.find(el => el.type === props.type);
-            // console.log(selected);
+            console.log(selected);
             if (selected) {
-                const id = selected.id;
+                const id = `${props.type}-${selected.date}`;
                 // console.log(id);
                 const children = Array.from(carousel.current.children);
                 // console.log(children);
@@ -27,7 +27,7 @@ export const Carousel = (props) => {
     const onSelect = (item) => {
         setSelect(item.name);
         const imgs = Array.from(carousel.current.querySelectorAll('.img'));
-        const img = document.getElementById(`img-${item.id}`);
+        const img = document.getElementById(`img-${props.type}-${item.date}`);
         if (img.classList.contains('focused')) {
             img.classList.remove('focused');
         } else {
@@ -40,6 +40,9 @@ export const Carousel = (props) => {
 
     const setRandom = () => {
         const rand = Math.floor(Math.random()*props.menu.length);
+        if (props.menu[rand].name === select) {
+            setRandom()
+        }
         const children = Array.from(carousel.current.children);
         children.forEach(child => child.classList.remove('active'));
         children[rand].classList.add('active');
@@ -53,8 +56,8 @@ export const Carousel = (props) => {
                 </ol>
                 <div className="carousel-inner" ref={carousel}>
                     {props.menu.map((item, i) => (
-                        <div key={item.id} className={`carousel-item ${(i === 0)? 'active' : ''}`} onClick={() => onSelect(item)} id = {item.id}>
-                            <img src={item.img} className="d-block w-20 img" alt={item.name} id = {`img-${item.id}`}/>
+                        <div key={`${props.type}-${item.date}`} className={`carousel-item ${(i === 0)? 'active' : ''}`} onClick={() => onSelect(item)} id = {`${props.type}-${item.date}`}>
+                            <img src={item.img} className="d-block w-20 img" alt={item.name} id = {`img-${props.type}-${item.date}`}/>
                             <div className="carousel-caption d-none d-md-block description">
                                 <h5>{item.name}</h5>
                                 <p>{item.description}</p>

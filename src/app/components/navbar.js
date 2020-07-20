@@ -80,7 +80,7 @@ export const Navbar = (props) => {
                 >
                     {user.userName || user.displayName}
                 </Button>
-                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{zIndex: 10}}>
                 {({ TransitionProps, placement }) => (
                     <Grow
                     {...TransitionProps}
@@ -89,8 +89,9 @@ export const Navbar = (props) => {
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                    <MenuItem onClick={() => window.location.assign('menu-edit')}>Edit dishes</MenuItem>
                                     <MenuItem onClick={() => window.location.assign('my-menus')}>My menus</MenuItem>
+                                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                         </Paper>

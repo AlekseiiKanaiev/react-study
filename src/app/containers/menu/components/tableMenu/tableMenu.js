@@ -24,7 +24,7 @@ export const TableMenu = (props) => {
             </TableHead>
             <TableBody>
                 {props.menu.map((item) => (
-                    <TableRow key={item.id}>
+                    <TableRow key={`${item.type}-${item.date}`}>
                         <TableCell component="th" scope="row">
                             {item.type}
                         </TableCell>

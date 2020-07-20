@@ -5,7 +5,9 @@ import {
     APP_HIDE_ALERT,
     APP_SET_USER,
     APP_REMOVE_USER,
-    APP_UPDATE_USER
+    APP_UPDATE_USER,
+    APP_UPDATE_USER_MENU,
+    APP_UPDATE_USER_DISH
 } from "./constants";
 
 export const showLoader = () => {
@@ -45,4 +47,12 @@ export const removeUser = () => {
 
 export const updateUser = (user) => {
     return ({type: APP_UPDATE_USER, payload: user});
+}
+
+export const saveUserMenu = (user) => {
+    console.log(user);
+    return ({type: APP_UPDATE_USER_MENU, payload: user});
+}
+export const saveUserDish = (user) => {
+    return ({type: APP_UPDATE_USER_DISH, payload: user});
 }

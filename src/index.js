@@ -11,18 +11,20 @@ import { App } from './app/app';
 import './index.scss';
 import { spawn } from 'redux-saga/effects';
 import { menuSaga } from './redux/menu/saga';
+import { appSaga } from './redux/app/saga';
 
 const saga = createSagaMiddleware();
 
 const store = createStore(rootReducer, compose(
         applyMiddleware(thunk, forbiddenWordMiddleware, saga),
         // cause error in build version -> comment for deploy
-        // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     ));
 
 function* rootSaga() {
     yield spawn(sagaWatcher);
     yield spawn(menuSaga);
+    yield spawn(appSaga);
 }
 
 saga.run(rootSaga);

@@ -10,7 +10,7 @@ import {
     DialogActions,
     Button
 } from '@material-ui/core';
-import { updateUser, showAlert } from '../../../../../redux/app/actions';
+import { updateUser, showAlert, saveUserMenu } from '../../../../../redux/app/actions';
 import { Loader } from '../../../../components/loader';
 import { SimpleAlert } from '../../../../components/simpleAlert';
 import './myMenus.scss';
@@ -42,17 +42,18 @@ export const MyMenus = (props) => {
         const name = storedUser.userMenus[index].name;
         storedUser.userMenus.splice(index, 1);
         // console.log(storedUser);
-        const data = Object.assign({}, storedUser);
-        delete data.id;
-        // console.log(data);
-        const url = process.env.REACT_APP_DB_URL;
-        const response = await axios.put(`${url}/users/${storedUser.id}.json`, data);
-        // console.log(response);
-        dispatch(updateUser(storedUser));
+        // const data = Object.assign({}, storedUser);
+        // delete data.id;
+        // // console.log(data);
+        // const url = process.env.REACT_APP_DB_URL;
+        // const response = await axios.put(`${url}/users/${storedUser.id}.json`, data);
+        // // console.log(response);
+        // dispatch(updateUser(storedUser));
+        dispatch(saveUserMenu(storedUser));
         dispatch(showAlert({type: 'warning', text: `Your menu "${name}" has been deleted`}));
     }
 
-    // console.log(storedUser);
+    console.log(storedUser);
     const isMenus = storedUser?.userMenus?.length > 0
     return (
         <Fragment>
@@ -63,16 +64,21 @@ export const MyMenus = (props) => {
             :
                 isMenus ? 
                     storedUser.userMenus.map((menu, i) => (
-                        <div key = {menu.date} className='saved-menu'>
-                            <div className='header'>
-                                <div>
-                                    <h3>{menu.name}</h3>
-                                    <small>created: {menu.date.split('T')[0]}</small>
+                        <Fragment>
+                        {menu &&
+                            <div key = {menu.date} className='saved-menu'>
+                                <div className='header'>
+                                    <div>
+                                        <h3>{menu.name}</h3>
+                                        <small>created: {menu.date.split('T')[0]}</small>
+                                    </div>
+                                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleOpen(i)}>&times;</button>
                                 </div>
-                                <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleOpen(i)}>&times;</button>
+                                <TableMenu  menu = {menu.selectedMenu}/>
                             </div>
-                            <TableMenu  menu = {menu.selectedMenu}/>
-                        </div>
+                        }
+                        </Fragment>
+                        
                     ))
                 :
                     <p>You haven't got any saved menus</p>
