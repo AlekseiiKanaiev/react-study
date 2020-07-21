@@ -42,7 +42,8 @@ export const MenuEdit = (props) => {
     // console.log(menu);
 
     const addUserDish = (item) => {
-        const newDish = {...item, date: +(new Date())};
+        console.log(item);
+        const newDish = item.date? {...item} : {...item, date: +(new Date())};
         if (newDish.id) {
             delete newDish.id;
         }
@@ -68,7 +69,6 @@ export const MenuEdit = (props) => {
                 <Loader />
             :
                 <Fragment>
-                 
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -81,6 +81,7 @@ export const MenuEdit = (props) => {
                             <h3 className='menu-edit-header'>Global dishes list</h3>
                             {menu.loaded ? 
                                 <MenuList 
+                                    user = {storedUser}
                                     menu={menu.adminMenu} 
                                     isDisabled={menu.loading} 
                                     deleteHandler={(id) => dispatch(deleteAdminDish(id))} 
