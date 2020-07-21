@@ -3,7 +3,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './menuList.scss';
 
 export const MenuList = (props) => {
-    // console.log(props);
+    console.log(props);
     return (
         <TransitionGroup component = 'ul' className='list-group'>
         {props.menu.map(item => (
@@ -23,7 +23,7 @@ export const MenuList = (props) => {
                                 type='button' 
                                 className='btn btn-outline-success btn-sm add-button' 
                                 onClick = {() => props.addUserDish(item)} 
-                                disabled={props.isDisabled || props.user?.userDishes.some(el => el.date === item.date)}
+                                disabled={props.isDisabled || props.user?.userDishes?.some(el => el.date === item.date)}
                             >
                                 +
                             </button>
