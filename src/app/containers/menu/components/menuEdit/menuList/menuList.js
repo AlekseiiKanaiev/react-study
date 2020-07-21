@@ -3,11 +3,12 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './menuList.scss';
 
 export const MenuList = (props) => {
+    console.log(props);
     return (
         <TransitionGroup component = 'ul' className='list-group'>
         {props.menu.map(item => (
             <CSSTransition
-                key = {item.id}
+                key = {item.date}
                 classNames = 'item'
                 timeout = {800}
             >
@@ -16,7 +17,26 @@ export const MenuList = (props) => {
                         <h5>{item.name}</h5>
                         <p>{item.description}</p>
                     </div>
-                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => props.deleteHandler(item.id)} disabled={props.isDisabled}>&times;</button>
+                    <div>
+                        {item.id &&
+                            <button 
+                                type='button' 
+                                className='btn btn-outline-success btn-sm add-button' 
+                                onClick = {() => props.addUserDish(item)} 
+                                disabled={props.isDisabled}
+                            >
+                                +
+                            </button>
+                        }
+                        <button 
+                            type="button" 
+                            className="btn btn-outline-danger btn-sm" 
+                            onClick={() => props.deleteHandler(item.date)} 
+                            disabled={props.isDisabled}
+                        >
+                            &times;
+                        </button>
+                    </div>
                 </li>
             </CSSTransition>
         ))}

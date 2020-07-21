@@ -14,7 +14,12 @@ import {
     MENU_REMOVE_MENU_DINNER,
     MENU_DELETE_MENU_BREAKFAST,
     MENU_DELETE_MENU_DINNER,
-    MENU_DELETE_MENU_SUPPER
+    MENU_DELETE_MENU_SUPPER,
+    MENU_ADD_MENU_ADMIN,
+    MENU_ADD_MENU_ADMIN_SUCCESS,
+    MENU_FETCH_MENU_SUCCESS,
+    MENU_DELETE_MENU_ADMIN,
+    MENU_DELETE_MENU_ADMIN_SUCCESS
 } from "./constants";
 import {setBreakfast, setDinner, setSupper, menuLoaded, menuSetLoading, menuRemoveLoading} from './actions'
 
@@ -22,6 +27,10 @@ const url = process.env.REACT_APP_DB_URL;
 
 export function* menuSaga() {
     yield takeEvery(MENU_FETCH_MENU, fetchMenu);
+
+    yield takeEvery(MENU_ADD_MENU_ADMIN, addMenuItem);
+    yield takeEvery(MENU_DELETE_MENU_ADMIN, removeMenuItem);
+ 
     yield takeLatest(MENU_ADD_MENU_BREAKFAST, addMenuItem);
     yield takeLatest(MENU_ADD_MENU_DINNER, addMenuItem);
     yield takeLatest(MENU_ADD_MENU_SUPPER, addMenuItem);
@@ -49,6 +58,12 @@ function* fetchMenu() {
         if (payload[0]) {yield put(setBreakfast(payload[0]));}
         if (payload[1]) {yield put(setDinner(payload[1]));}
         if (payload[2]) {yield put(setSupper(payload[2]));}
+        
+        const adminMenu = yield call(getAdminMenu);
+        // console.log(adminMenu.data);
+        payload = Object.keys(adminMenu.data).map(key => ({...adminMenu.data[key], id: key}));
+        // console.log(payload);
+        yield put({type: MENU_FETCH_MENU_SUCCESS, payload})
         yield put(menuLoaded());
         console.log('setted');
         yield put(hideLoader());
@@ -62,6 +77,10 @@ async function getMenu(){
     const urls = [`${url}/menu_breakfast.json`, `${url}/menu_dinner.json`, `${url}/menu_supper.json`];
     const gets = urls.map(url => axios.get(url));
     return await axios.all([...gets]);
+}
+
+async function getAdminMenu(){
+    return await axios.get(`${url}/menu_admin.json`);
 }
 
 function* addMenuItem (action) {
@@ -81,6 +100,10 @@ function* addMenuItem (action) {
             type = 'supper';
             actionType = MENU_SET_MENU_SUPPER;
             break;
+        case MENU_ADD_MENU_ADMIN:
+            type = 'admin'
+            actionType = MENU_ADD_MENU_ADMIN_SUCCESS;
+            break;
         default:
             break;
     }
@@ -91,7 +114,7 @@ function* addMenuItem (action) {
     const payload = yield call(postMenuItem, action.payload, type);
     // console.log(payload);
     yield put({type: actionType, payload});
-    yield put(showAlert({type: 'success', text: `Add new ${type}`}));
+    yield put(showAlert({type: 'success', text: `Add new ${type} dish`}));
     yield put(menuRemoveLoading());
 }
 
@@ -126,6 +149,10 @@ function*  removeMenuItem(action){
             type = 'supper';
             actionType = MENU_REMOVE_MENU_SUPPER;
             break;
+        case MENU_DELETE_MENU_ADMIN:
+            type = 'admin';
+            actionType = MENU_DELETE_MENU_ADMIN_SUCCESS;
+            break;
         default: 
             break;
     }
@@ -135,7 +162,7 @@ function*  removeMenuItem(action){
     yield put(menuSetLoading());
     yield call(deleteMenuItem, type, action.payload);
     yield put({type: actionType, payload: action.payload});
-    yield put(showAlert({type: 'warning', text: `Deleted ${type} item`}));
+    yield put(showAlert({type: 'warning', text: `Deleted ${type} dish item`}));
     yield put(menuRemoveLoading());
 }
 const deleteMenuItem = async (type, id) => {

@@ -1,13 +1,6 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-    Paper,
-    TableContainer,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -17,17 +10,19 @@ import {
     Button
 } from '@material-ui/core';
 import './selected.scss';
-import { showAlert } from '../../../../../redux/app/actions';
+import { showAlert, saveUserMenu } from '../../../../../redux/app/actions';
 import { SimpleAlert } from '../../../../components/simpleAlert';
+import { TableMenu } from '../tableMenu/tableMenu';
 
 export const Selected = (props) => {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
     const selectedMenu = useSelector(state => state.menu.selectedMenu);
+    const user = useSelector(state => state.app.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(selectedMenu);
+        // console.log(selectedMenu);
         if (!selectedMenu.length) {
             props.history.push('/menu');
         }
@@ -37,14 +32,17 @@ export const Selected = (props) => {
         setOpen(true);
     };
     
-      const handleClose = () => {
+    const handleClose = () => {
         setOpen(false);
     };
 
-    const handleSaveMenu = () => {
+    const handleSaveMenu = async () => {
         setOpen(false);
-        dispatch(showAlert({type: 'success', text: 'Your menu has been saved (no)'}));
-        
+        const savedMenu = {name, selectedMenu, date: new Date()};
+        const updUser = user.userMenus ? {...user, userMenus: [...user.userMenus, savedMenu]} : {...user, userMenus: [savedMenu]};
+        dispatch(saveUserMenu(updUser));
+        dispatch(showAlert({type: 'success', text: 'Your menu has been saved'}));
+        setName('');
     }
 
     return (
@@ -53,33 +51,10 @@ export const Selected = (props) => {
                 <Fragment>
                     <SimpleAlert/>
                     <h2>Selected Menu</h2>
-                    <TableContainer component={Paper}>
-                        <Table className='table' aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Type</TableCell>
-                                <TableCell align="right">Name</TableCell>
-                                <TableCell align="right">Description</TableCell>
-                                <TableCell align="right">Image</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {selectedMenu.map((item) => (
-                                <TableRow key={item.id}>
-                                    <TableCell component="th" scope="row">
-                                        {item.type}
-                                    </TableCell>
-                                    <TableCell align="right">{item.name}</TableCell>
-                                    <TableCell align="right">{item.description}</TableCell>
-                                    <TableCell align="right">
-                                        <img src={item.img} alt={item.name} className='image'/>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <button type='button' className='btn btn-success save-button' onClick={handleClickOpen}>Save</button>
+                    <TableMenu menu = {selectedMenu}/>
+                    {user && 
+                        <button type='button' className='btn btn-success save-button' onClick={handleClickOpen}>Save</button>
+                    }
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                         <DialogContent>
@@ -102,7 +77,7 @@ export const Selected = (props) => {
                                 Cancel
                             </Button>
                             <Button onClick={handleSaveMenu} color="primary" disabled={name.length<1}>
-                                Subscribe
+                                Save
                             </Button>
                         </DialogActions>
                     </Dialog>
