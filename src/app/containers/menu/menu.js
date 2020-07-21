@@ -31,9 +31,9 @@ export const Menu = (props) => {
     const dispatch = useDispatch();
     
     const onSelect = (item) => {
-        console.log(item);
+        // console.log(item);
         const index = selected.findIndex(el => el.type === item.type);
-        console.log(index);
+        // console.log(index);
         if (index !== -1) {
             // console.log(id);
             if (selected[index].date === item.date) {
@@ -55,13 +55,13 @@ export const Menu = (props) => {
             if ( firstPos > secondPos) return 1;
             return 0;
         })
-        console.log(selected);
+        // console.log(selected);
         dispatch(setSelectedMenu(selected));
         props.history.push('/selected');
     }
 
     useEffect(() => {
-        console.log(menu.selectedMenu);
+        // console.log(menu.selectedMenu);
         const selectedMeals = menu.selectedMenu.map((item, i) => ({name: item.type, position: i}));
         setMeals(selectedMeals);
     }, [menu]);

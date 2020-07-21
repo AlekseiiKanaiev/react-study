@@ -35,7 +35,7 @@ export const FirebaseStateFunction = (props) => {
     // console.log(props);
 
     if (props.user?.displayName) {
-        console.log(props.user);
+        // console.log(props.user);
         setUserLocal(props.user);
     }
 
@@ -107,7 +107,7 @@ export const FirebaseStateFunction = (props) => {
     const login = (email, pass) => {
         return props.firebase.auth().signInWithEmailAndPassword(email, pass)
         .then((user) => {
-            console.log(user);
+            // console.log(user);
             setUserLocal(user.user);
             return Promise.resolve();
         });
@@ -128,11 +128,11 @@ export const FirebaseStateFunction = (props) => {
             const newUser = {email, roles, userName};
             try{
                 const response = await axios.post(`${url}/users.json`, newUser);
-                console.log(response);
+                // console.log(response);
                 const updUSer = props.firebase.auth().currentUser;
                 updUSer.updateProfile({displayName: userName})
                 .then(() => {
-                    console.log(user);
+                    // console.log(user);
                     setUserLocal(user.user);
                 })
                 .catch((e) => console.log(e));

@@ -19,7 +19,7 @@ export const hideLoader = () => {
 }
 
 export const showAlert = (alert, delay = 2000) => {
-    console.log(alert);
+    // console.log(alert);
     // return ({type: APP_SHOW_ALERT, payload: alert});
     // console.log(alert);
     return (dispatch) => {
@@ -56,7 +56,7 @@ export const updateUser = (user) => {
 }
 
 export const saveUserMenu = (user) => {
-    console.log(user);
+    // console.log(user);
     return ({type: APP_UPDATE_USER_MENU, payload: user});
 }
 export const saveUserDish = (user) => {

@@ -18,7 +18,7 @@ import {
 } from "./constants";
 
 export const fetchMenu = () => {
-    console.log('action', MENU_FETCH_MENU);
+    // console.log('action', MENU_FETCH_MENU);
     return {
         type: MENU_FETCH_MENU
     };

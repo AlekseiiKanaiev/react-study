@@ -11,14 +11,14 @@ export const Login = (props) => {
     const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    console.log(props);
+    // console.log(props);
     // console.log(props.history);
     // console.log(props.match);
 
     // const user = useSelector(state => state.app.user);
     const user = window.localStorage.getItem('user');
     // const user = useSelector(state => state.app.user) || JSON.parse(window.localStorage.getItem('user'));
-    console.log(user);
+    // console.log(user);
 
     const verifyEmail = (email) => {
         return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);

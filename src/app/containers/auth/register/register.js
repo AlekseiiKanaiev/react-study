@@ -30,7 +30,7 @@ export const Register = (props) => {
         }
         register(email, pass, name)
         .then(() => {
-            console.log('push');
+            // console.log('push');
             props.history.push('/about');
             
         })

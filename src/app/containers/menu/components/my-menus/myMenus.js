@@ -44,7 +44,7 @@ export const MyMenus = (props) => {
         dispatch(showAlert({type: 'warning', text: `Your menu "${name}" has been deleted`}));
     }
 
-    console.log(storedUser);
+    // console.log(storedUser);
     const isMenus = storedUser?.userMenus?.length > 0
     return (
         <Fragment>

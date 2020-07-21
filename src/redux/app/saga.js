@@ -39,7 +39,7 @@ async function getUsers(){
 }
 
 function* updateUser(action) {
-    console.log(action.payload);
+    // console.log(action.payload);
     const data = Object.assign({}, action.payload);
     delete data.id;
     

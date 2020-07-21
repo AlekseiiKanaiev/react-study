@@ -33,7 +33,7 @@ export const MenuEdit = (props) => {
     }, [user, storedUser]);
 
     useEffect(() => {
-        console.log(storedUser);
+        // console.log(storedUser);
         if (!menu.loaded) {
             dispatch(fetchMenu());
         }

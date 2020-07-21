@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 export const TableMenu = (props) => {
-    console.log(props);
+    // console.log(props);
     return (
         <TableContainer component={Paper}>
             <Table className='table' aria-label="simple table">
