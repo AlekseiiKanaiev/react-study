@@ -17,7 +17,26 @@ export const MenuList = (props) => {
                         <h5>{item.name}</h5>
                         <p>{item.description}</p>
                     </div>
-                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => props.deleteHandler(item.date)} disabled={props.isDisabled}>&times;</button>
+                    <div>
+                        {item.id &&
+                            <button 
+                                type='button' 
+                                className='btn btn-outline-success btn-sm add-button' 
+                                onClick = {() => props.addUserDish(item)} 
+                                disabled={props.isDisabled}
+                            >
+                                +
+                            </button>
+                        }
+                        <button 
+                            type="button" 
+                            className="btn btn-outline-danger btn-sm" 
+                            onClick={() => props.deleteHandler(item.date)} 
+                            disabled={props.isDisabled}
+                        >
+                            &times;
+                        </button>
+                    </div>
                 </li>
             </CSSTransition>
         ))}

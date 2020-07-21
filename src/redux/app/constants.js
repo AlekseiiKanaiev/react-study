@@ -1,11 +1,10 @@
-import { updateUser } from "./actions";
-
 export const APP_SHOW_LOADER = 'APP/SHOW_LOADER';
 export const APP_HIDE_LOADER = 'APP/HIDE_LOADER';
 
 export const APP_SHOW_ALERT = 'APP/SHOW_ALERT';
 export const APP_HIDE_ALERT = 'APP/HIDE_ALERT';
 
+export const APP_GET_USER = 'APP/GET_USER';
 export const APP_SET_USER = 'APP/SET_USER';
 export const APP_REMOVE_USER = 'APP/REMOVE_USER';
 

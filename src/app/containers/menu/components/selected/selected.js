@@ -1,6 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import axios from 'axios';
 import {
     Dialog,
     DialogTitle,
@@ -11,7 +10,7 @@ import {
     Button
 } from '@material-ui/core';
 import './selected.scss';
-import { showAlert, updateUser, saveUserMenu } from '../../../../../redux/app/actions';
+import { showAlert, saveUserMenu } from '../../../../../redux/app/actions';
 import { SimpleAlert } from '../../../../components/simpleAlert';
 import { TableMenu } from '../tableMenu/tableMenu';
 
@@ -40,17 +39,8 @@ export const Selected = (props) => {
     const handleSaveMenu = async () => {
         setOpen(false);
         const savedMenu = {name, selectedMenu, date: new Date()};
-        // console.log(savedMenu);
         const updUser = user.userMenus ? {...user, userMenus: [...user.userMenus, savedMenu]} : {...user, userMenus: [savedMenu]};
-        // console.log(updUser);
         dispatch(saveUserMenu(updUser));
-        // const data = Object.assign({}, updUser);
-        // delete data.id;
-        // // console.log(data);
-        // const url = process.env.REACT_APP_DB_URL;
-        // const response = await axios.put(`${url}/users/${updUser.id}.json`, data);
-        // // console.log(response);
-        // dispatch(updateUser(updUser));
         dispatch(showAlert({type: 'success', text: 'Your menu has been saved'}));
         setName('');
     }

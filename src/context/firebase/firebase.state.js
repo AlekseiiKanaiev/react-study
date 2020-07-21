@@ -12,7 +12,7 @@ import {
 import { FirebaseContext } from './firebase.context';
 import { firebaseReducer } from './firebase.reducer';
 import { SHOW_LOADER, HIDE_LOADER, ADD_NOTE, REMOVE_NOTE, FETCH_NOTES } from './firebase.constants';
-import { setUser, removeUser } from '../../redux/app/actions';
+import { removeUser, getUser } from '../../redux/app/actions';
 import { useDispatch } from 'react-redux';
 
 const url = process.env.REACT_APP_DB_URL;
@@ -34,7 +34,6 @@ export const FirebaseStateFunction = (props) => {
     // const firibaseAuth = app.auth();
     // console.log(props);
 
-
     if (props.user?.displayName) {
         console.log(props.user);
         setUserLocal(props.user);
@@ -47,29 +46,11 @@ export const FirebaseStateFunction = (props) => {
     }
     const [state, dispatch] = useReducer(firebaseReducer, initialState);
 
-    async function getUser(email){
-        dispatchRedux({type: 'APP/SHOW_LOADER'});
-        try{
-            const response = await axios.get(`${url}/users.json`);
-            Object.keys(response.data).forEach(key => {
-                if (response.data[key].email === email) {
-                    console.log(response.data[key]);
-                    dispatchRedux(setUser({...response.data[key], id: key}));
-                    dispatchRedux({type: 'APP/HIDE_LOADER'});
-                }
-            })
-        }
-        catch(e){
-            dispatchRedux({type: 'APP/HIDE_LOADER'});
-            throw new Error('Server Error: ' + e.message);
-        }
-    }
-
     function setUserLocal(user) {
         console.log('set user');
         // console.log(user);
         window.localStorage.setItem('user', JSON.stringify(user));
-        getUser(user.email);
+        dispatchRedux(getUser(user.email));
     }
 
     const showLoader = () => {

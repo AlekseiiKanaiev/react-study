@@ -3,26 +3,33 @@ import './carousel.scss';
 
 export const Carousel = (props) => {
     const [select, setSelect] = useState('');
+    const [current, setCur] = useState(0);
     const carousel = useRef(null);
 
     useEffect(() => {
-
-        if (props.selectedMenu.length) {
-            const selected = props.selectedMenu.find(el => el.type === props.type);
-            console.log(selected);
-            if (selected) {
-                const id = `${props.type}-${selected.date}`;
-                // console.log(id);
-                const children = Array.from(carousel.current.children);
-                // console.log(children);
-                const selectItem = children.find(el => el.id === id);
-                // console.log(selectItem);
+        
+        if (props.selectedItem) {
+            const id = `${props.type}-${props.selectedItem.date}`;
+            // console.log(id);
+            const children = Array.from(carousel.current.children);
+            // console.log(children);
+            const selectItem = children.find(el => el.id === id);
+            // console.log(selectItem);
+            children.forEach(child => child.classList.remove('active'));
+            selectItem.classList.add('active');
+            onSelect(props.selectedItem);
+        }
+        if (props.search) {
+            const children = Array.from(carousel.current.children);
+            // console.log(children);
+            const searchItem = children.findIndex((el) => el.firstChild.alt === props.search);
+            // console.log(searchItem);
+            if (searchItem !== -1) {
                 children.forEach(child => child.classList.remove('active'));
-                selectItem.classList.add('active');
-                onSelect(selected);
+                children[searchItem].classList.add('active');
             }
         }
-    }, [])
+    }, [props.search]);
 
     const onSelect = (item) => {
         setSelect(item.name);
@@ -48,44 +55,52 @@ export const Carousel = (props) => {
         children[rand].classList.add('active');
         onSelect(props.menu[rand]);
     }
+    // console.log(props);
+    // onClick = {() => console.dir(carousel.current.querySelector('.active').nextSibling.innerText.split('\n')[0])} 
     return (
         <Fragment>
             <div id={`carousel-menu-${props.type}`} className="carousel slide" data-ride="carousel"  data-pause = 'true'>
                 <ol className="carousel-indicators">
                     {props.menu.map((item, i) => <li key={i} data-target={`#carousel-menu-${props.type}`} data-slide-to={i} className={(i === 0)? 'active' : ''}></li>)}
                 </ol>
-                <div className="carousel-inner" ref={carousel}>
-                    {props.menu.map((item, i) => (
-                        <div key={`${props.type}-${item.date}`} className={`carousel-item ${(i === 0)? 'active' : ''}`} onClick={() => onSelect(item)} id = {`${props.type}-${item.date}`}>
-                            <img src={item.img} className="d-block w-20 img" alt={item.name} id = {`img-${props.type}-${item.date}`}/>
-                            <div className="carousel-caption d-none d-md-block description">
-                                <h5>{item.name}</h5>
-                                <p>{item.description}</p>
+                <div className="carousel-inner" ref={carousel} >
+                    {props.menu.map((item, i) => {
+                        return (
+                            <div key={`${props.type}-${item.date}`} className={`carousel-item ${(i === 0)? 'active' : ''}`} onClick={() => onSelect(item)} id = {`${props.type}-${item.date}`}>
+                                <img src={item.img} className="d-block w-20 img" alt={item.name} id = {`img-${props.type}-${item.date}`}/>
+                                <div className="carousel-caption d-none d-md-block description">
+                                    <h5>{item.name}</h5>
+                                    <p>{item.description}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
                 {props.menu.length > 1 &&
-                <Fragment>
-                    <a className="carousel-control-prev carousel-control" href={`#carousel-menu-${props.type}`} role="button" data-slide="prev">
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" className="arrow bi bi-caret-left-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.86 8.753l5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-                    </svg>
-                    {/* <span className="carousel-control-prev-icon" aria-hidden="true"></span> */}
-                    <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="carousel-control-next carousel-control" href={`#carousel-menu-${props.type}`} role="button" data-slide="next">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" className="arrow bi bi-caret-right-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                        </svg>
-                        {/* <span className="carousel-control-next-icon" aria-hidden="true"></span> */}
-                        <span className="sr-only">Next</span>
-                    </a>
-                </Fragment>
+                    <Fragment>
+                        <a onClick = {() => setCur(current? current-1 : props.menu.length-1)}  className="carousel-control-prev carousel-control" href={`#carousel-menu-${props.type}`} role="button" data-slide="prev">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="arrow bi bi-caret-left-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.86 8.753l5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                            </svg>
+                            {/* <span className="carousel-control-prev-icon" aria-hidden="true"></span> */}
+                            <span className="sr-only">Previous</span>
+                        </a>
+                        <a onClick = {() => setCur(current === props.menu.length-1 ? 0 : current+1)} className="carousel-control-next carousel-control" href={`#carousel-menu-${props.type}`} role="button" data-slide="next">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="arrow bi bi-caret-right-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                            </svg>
+                            {/* <span className="carousel-control-next-icon" aria-hidden="true"></span> */}
+                            <span className="sr-only">Next</span>
+                        </a>
+                    </Fragment>
                 }
             </div>
             <div className='centred'>
-                {select && <h3 className='choice'>You choose: <span>{select}</span>!</h3>}
+                {select ? 
+                    <h3 className='choice'>You choose: <span>{select}</span>!</h3>
+                :
+                    <h3 className='choice'>{props.menu[current].name}</h3>
+                }
                 <button className='btn btn-warning random-button' onClick={setRandom}>Random</button>
             </div>
         </Fragment>

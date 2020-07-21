@@ -1,6 +1,5 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import { TableMenu } from '../tableMenu/tableMenu';
 import {
     Dialog,
@@ -10,7 +9,7 @@ import {
     DialogActions,
     Button
 } from '@material-ui/core';
-import { updateUser, showAlert, saveUserMenu } from '../../../../../redux/app/actions';
+import { showAlert, saveUserMenu } from '../../../../../redux/app/actions';
 import { Loader } from '../../../../components/loader';
 import { SimpleAlert } from '../../../../components/simpleAlert';
 import './myMenus.scss';
@@ -41,14 +40,6 @@ export const MyMenus = (props) => {
         handleClose();
         const name = storedUser.userMenus[index].name;
         storedUser.userMenus.splice(index, 1);
-        // console.log(storedUser);
-        // const data = Object.assign({}, storedUser);
-        // delete data.id;
-        // // console.log(data);
-        // const url = process.env.REACT_APP_DB_URL;
-        // const response = await axios.put(`${url}/users/${storedUser.id}.json`, data);
-        // // console.log(response);
-        // dispatch(updateUser(storedUser));
         dispatch(saveUserMenu(storedUser));
         dispatch(showAlert({type: 'warning', text: `Your menu "${name}" has been deleted`}));
     }
@@ -64,9 +55,9 @@ export const MyMenus = (props) => {
             :
                 isMenus ? 
                     storedUser.userMenus.map((menu, i) => (
-                        <Fragment>
+                        <Fragment key = {menu.date}>
                         {menu &&
-                            <div key = {menu.date} className='saved-menu'>
+                            <div className='saved-menu'>
                                 <div className='header'>
                                     <div>
                                         <h3>{menu.name}</h3>
@@ -78,7 +69,6 @@ export const MyMenus = (props) => {
                             </div>
                         }
                         </Fragment>
-                        
                     ))
                 :
                     <p>You haven't got any saved menus</p>

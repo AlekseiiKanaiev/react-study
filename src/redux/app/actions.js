@@ -7,7 +7,8 @@ import {
     APP_REMOVE_USER,
     APP_UPDATE_USER,
     APP_UPDATE_USER_MENU,
-    APP_UPDATE_USER_DISH
+    APP_UPDATE_USER_DISH,
+    APP_GET_USER
 } from "./constants";
 
 export const showLoader = () => {
@@ -18,6 +19,7 @@ export const hideLoader = () => {
 }
 
 export const showAlert = (alert, delay = 2000) => {
+    console.log(alert);
     // return ({type: APP_SHOW_ALERT, payload: alert});
     // console.log(alert);
     return (dispatch) => {
@@ -35,6 +37,10 @@ export const hideAlert = (delay = 0) => {
         setTimeout(() => dispatch(hideAlert()), delay);
     }
 };
+
+export const getUser = (email) => {
+    return ({type: APP_GET_USER, payload: email});
+}
 
 export const setUser = (user) => {
     console.log('set user');

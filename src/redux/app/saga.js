@@ -1,13 +1,41 @@
-import {takeEvery, put, call, takeLatest} from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { APP_UPDATE_USER_MENU, APP_UPDATE_USER_DISH, APP_UPDATE_USER_SUCCESS } from './constants';
-import { showAlert } from './actions';
+import { APP_UPDATE_USER_MENU, APP_UPDATE_USER_DISH, APP_UPDATE_USER_SUCCESS, APP_GET_USER } from './constants';
+import { showLoader, hideLoader, setUser } from './actions';
 
 const url = process.env.REACT_APP_DB_URL;
 
 export function* appSaga() {
     yield takeEvery(APP_UPDATE_USER_MENU, updateUser);
     yield takeEvery(APP_UPDATE_USER_DISH, updateUser);
+    yield takeEvery(APP_GET_USER, getUserByEmail);
+}
+
+function* getUserByEmail(action){
+    yield put(showLoader());
+    const response = yield call(getUsers);
+    let user;
+    if (response) {
+        Object.keys(response.data).forEach(key => {
+            if (response.data[key].email === action.payload) {
+                user = {...response.data[key], id: key};
+            }
+        })
+    }
+    if (user){
+        yield put(setUser(user));
+    }
+    yield put(hideLoader());
+
+}
+
+async function getUsers(){
+    try{
+        return await axios.get(`${url}/users.json`);
+    }
+    catch(e){
+        throw new Error('Server Error: ' + e.message);
+    }
 }
 
 function* updateUser(action) {
@@ -25,5 +53,4 @@ async function putUser(id, data){
     } catch(e) {
         throw new Error('Server Error: ' + e.message);
     }
-    
 }

@@ -10,9 +10,10 @@ import {
     DialogActions,
     Button
 } from '@material-ui/core';
-import { fetchMenu, setSelectedMenu } from '../../../redux/menu/actions';
+import { setSelectedMenu } from '../../../redux/menu/actions';
 import { Carousel } from './components/carousel/carousel';
 import { Loader } from '../../components/loader';
+import './menu.scss';
 
 // import {menu} from './data';
 
@@ -22,6 +23,7 @@ export const Menu = (props) => {
     const [meals, setMeals] = useState([]);
     const [selected, setSelected] = useState([]);
     const [position, setPos] = useState(0);
+    const [search, setSearch] = useState([]);
     const user = JSON.parse(window.localStorage.getItem('user'));
     const {loading, user: storedUser} = useSelector(state => state.app);
     const menu = useSelector(state => state.menu);
@@ -59,11 +61,7 @@ export const Menu = (props) => {
     }
 
     useEffect(() => {
-        // if (!menu.loaded) {
-        //     dispatch(fetchMenu());
-        // }
         console.log(menu.selectedMenu);
-        // setSelected(menu.selectedMenu);
         const selectedMeals = menu.selectedMenu.map((item, i) => ({name: item.type, position: i}));
         setMeals(selectedMeals);
     }, [menu]);
@@ -81,9 +79,16 @@ export const Menu = (props) => {
         const meal = {name, position};
         setMeals([...meals, meal]);
         setPos(state => state+1);
+        setSearch([...search, ''])
         setName('');
     }
 
+    const inputHandler = (e, i) => {
+        // console.log(e.target.value);
+        const val = [...search];
+        val.splice(i, 1, e.target.value);
+        setSearch(val);
+    }
     // console.log(selected);
     // console.log(meals);
     return (
@@ -99,29 +104,42 @@ export const Menu = (props) => {
                     <NavLink to = '/register' className="">register</NavLink>
                 </p>
             :
-                storedUser?.userDishes ?
-                    <Fragment>
-                        {meals.length > 0 &&
-                            meals.map((item, i) => (
-                                <div key={item.position}>
-                                    <h3>Choose {item.name}</h3>
-                                    <Carousel menu={storedUser.userDishes} type = {item.name} selectedMenu = {menu.selectedMenu} onSelect={onSelect}/>
-                                </div>
-                            ))
-                        }
-                        <div>
-                            <button onClick={handleClickOpen}>Add meal</button>
-                        </div>
-                    </Fragment>
+                loading? 
+                    <Loader />
                 :
-                    <p>
-                        You haven't got any saved dishes, go to 
-                        <NavLink to = '/menu-edit' className=""> menu-edit </NavLink>
-                        and add some
-                    </p>
+                    storedUser?.userDishes ?
+                        <Fragment>
+                            {meals.length > 0 &&
+                                meals.map((item, i) => (
+                                    <div key={item.position}>
+                                        <h3>Choose {item.name}</h3>
+                                        {/* <input type='text' placeholder='search' value = {search[i]} onChange={}/> */}
+                                        <TextField
+                                            className = 'search-input'
+                                            margin="dense"
+                                            id="search"
+                                            label="Search dish"
+                                            type="text"
+                                            defaultValue={search[i]}
+                                            onChange = {(e) => inputHandler(e, i)}
+                                        />
+                                        <Carousel menu={storedUser.userDishes} type = {item.name} selectedItem = {menu.selectedMenu[i]} search = {search[i]} onSelect={onSelect}/>
+                                    </div>
+                                ))
+                            }
+                            <div>
+                                <button onClick={handleClickOpen} className='btn btn-outline-success btn-lg'>Add meal</button>
+                            </div>
+                        </Fragment>
+                    :
+                        <p>
+                            You haven't got any saved dishes, go to 
+                            <NavLink to = '/menu-edit' className=""> menu-edit </NavLink>
+                            and add some
+                        </p>
             }
             {selected.length > 0 &&
-                <button className='btn btn-info' style={{marginRight: '10px'}} disabled={selected.length !== meals.length} onClick={choose}>Choose</button>
+                <button className='btn btn-info' style={{marginTop: '10px'}} disabled={selected.length !== meals.length} onClick={choose}>Choose</button>
             }
             
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
