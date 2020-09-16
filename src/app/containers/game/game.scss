@@ -14,3 +14,23 @@ ol, ul {
 .game-info {
     margin-left: 20px;
 }
+.MuiSvgIcon-root{
+    cursor: pointer !important;
+    & :hover{
+        color: red;
+    }
+}
+.decreaseWeeks .increaseWeeks {
+    cursor: pointer !important;
+}
+
+.table{
+    display: flex;
+}
+.weekRows{
+    margin-top: 40px;
+}
+.weekRow{
+    display: block;
+    margin: 20px;
+}

@@ -11,6 +11,7 @@ import { Login } from './containers/auth/login/login';
 import { Register } from './containers/auth/register/register';
 import { Selected } from './containers/menu/components/selected/selected';
 import { MyMenus } from './containers/menu/components/my-menus/myMenus';
+import { Dis } from './containers/dis/dis';
 // import { FirebaseContext } from '../context/firebase/firebase.context';
 
 export const Routes = () => {
@@ -31,6 +32,7 @@ export const Routes = () => {
             <Route path = '/register' component = {Register}/>
             <Route path = '/selected' component = {Selected}/>
             <Route path = '/my-menus' component = {MyMenus}/>
+            <Route path = '/dis' component = {Dis}/>
         </Switch>
     );
 }
