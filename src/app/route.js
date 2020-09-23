@@ -12,6 +12,7 @@ import { Register } from './containers/auth/register/register';
 import { Selected } from './containers/menu/components/selected/selected';
 import { MyMenus } from './containers/menu/components/my-menus/myMenus';
 import { Dis } from './containers/dis/dis';
+import { Table } from './containers/table/table';
 // import { FirebaseContext } from '../context/firebase/firebase.context';
 
 export const Routes = () => {
@@ -33,6 +34,7 @@ export const Routes = () => {
             <Route path = '/selected' component = {Selected}/>
             <Route path = '/my-menus' component = {MyMenus}/>
             <Route path = '/dis' component = {Dis}/>
+            <Route path = '/table' component = {Table}/>
         </Switch>
     );
 }

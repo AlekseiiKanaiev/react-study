@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 import { Board } from './board/board';
-import { Table } from './table';
+import { Table } from '../table/table';
 import './game.scss';
 
 export const Game = () => {
@@ -60,23 +59,6 @@ export const Game = () => {
     }
 
     const status = winner.player ? `Winner: ${winner.player}` : `Next player: ${player}`;
-    const mochWeeks = 12;
-    const [curWeek, setCurWeek] = useState(0);
-    const mochRows = [{}, {}, {}, {}];
-    const mochData = [
-        {
-            day: 5,
-            name: 'ex1'
-        },
-        {
-            day: 5,
-            name: 'ex2'
-        },
-        {
-            day: 31,
-            name: 'ex3'
-        }
-    ];
     return (
         <Fragment>
             <h1>Game</h1>
@@ -106,26 +88,6 @@ export const Game = () => {
                 </div>
             </div>
             <hr/>
-            <div className='table-component'>
-                <div className='header'>
-                    <button  className='decreaseWeeks' onClick = {() => setCurWeek(curWeek - 1)} disabled = {curWeek === 0}>
-                        <ArrowBackIosIcon />
-                    </button>
-
-                    <span>Weeks {curWeek*4 + 1} - {curWeek*4 + 4}</span>
-                    <button  className='increaseWeeks' onClick = {() => setCurWeek(curWeek + 1)} disabled = {curWeek >= mochWeeks / 4 - 1}>
-                        <ArrowForwardIosIcon />
-                    </button>
-                </div>
-
-                <div className = 'table'>
-                    <div className = 'weekRows'>
-                        {mochRows.map((el, index) => <span key = {index} className='weekRow'>{`W${(index + curWeek*4) + 1}`}</span>)}
-                    </div>
-                    <Table rows = {mochRows} curWeek = {curWeek} data = {mochData}/>
-                </div>
-
-            </div>
         </Fragment>
     );
 }
