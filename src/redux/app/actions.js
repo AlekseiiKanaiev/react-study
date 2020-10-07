@@ -19,6 +19,8 @@ export const hideLoader = () => {
 }
 
 export const showAlert = (alert, delay = 2000) => {
+    // console.log('alert', alert);
+
     // console.log(alert);
     // return ({type: APP_SHOW_ALERT, payload: alert});
     // console.log(alert);
@@ -32,9 +34,10 @@ function hideAlertInner() {
     return ({type: APP_HIDE_ALERT})
 }
 
-export const hideAlert = (delay = 0) => {
+export const hideAlert = (delay = 1) => {
     return (dispatch) => {
-        setTimeout(() => dispatch(hideAlert()), delay);
+
+        setTimeout(() => dispatch(hideAlertInner()), delay);
     }
 };
 

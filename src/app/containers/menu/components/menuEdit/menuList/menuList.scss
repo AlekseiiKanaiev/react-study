@@ -1,3 +1,21 @@
+.filters{
+    display: flex;
+    margin-bottom: 10px;
+    .MuiFormControl-root.MuiTextField-root{
+        margin-right: 20px;
+        width: 30%;
+        background: none;
+    }
+    .MuiFilledInput-input{
+        padding: 19px 0px 10px !important;
+    }
+    .MuiInputBase-root.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-formControl{
+        background: none;
+    }
+    .MuiFormControl-root.menu-select{
+        width: 30%;
+    }
+}
 .list-group-item{
     display: flex !important;
     justify-content: space-between;

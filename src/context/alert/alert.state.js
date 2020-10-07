@@ -10,10 +10,10 @@ export const AlertState = ({children}) => {
         visible: false
     }
     const [state, dispatch] = useReducer(alertReducer, initialState);
-    
+
     const show = (text, type = 'warning') => {
         dispatch({type: SHOW_ALERT, payload: {text, type}});
-        setTimeout(hide, 2000);
+        // setTimeout(hide, 2000);
     }
 
     const hide = () => {

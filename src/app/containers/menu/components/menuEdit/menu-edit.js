@@ -22,7 +22,7 @@ export const MenuEdit = (props) => {
     // const {user} = useSelector(state => state.app);
     const user = JSON.parse(window.localStorage.getItem('user'));
     const {loading, user: storedUser} = useSelector(state => state.app);
-    
+
     const dispatch = useDispatch();
 
     // console.log(user);
@@ -38,7 +38,7 @@ export const MenuEdit = (props) => {
             dispatch(fetchMenu());
         }
     }, [storedUser]);
-    
+
     // console.log(menu);
 
     const addUserDish = (item) => {
@@ -61,7 +61,7 @@ export const MenuEdit = (props) => {
     }
 
     return (
-        <Fragment>
+        <div>
             <SimpleAlert />
             <h1>Menu edit</h1>
             <div className='accordion'>
@@ -79,13 +79,14 @@ export const MenuEdit = (props) => {
                         </AccordionSummary>
                         <AccordionDetails>
                             <h3 className='menu-edit-header'>Global dishes list</h3>
-                            {menu.loaded ? 
-                                <MenuList 
+                            {menu.loaded ?
+                                <MenuList
                                     user = {storedUser}
-                                    menu={menu.adminMenu} 
-                                    isDisabled={menu.loading} 
-                                    deleteHandler={(id) => dispatch(deleteAdminDish(id))} 
+                                    menu={menu.adminMenu}
+                                    isDisabled={menu.loading}
+                                    deleteHandler={(id) => dispatch(deleteAdminDish(id))}
                                     addUserDish = {(item) => addUserDish(item)}
+                                    list = 'globalList'
                                 />
                                 :
                                 <Loader />
@@ -98,7 +99,7 @@ export const MenuEdit = (props) => {
                             }
                         </AccordionDetails>
                     </Accordion>
-                    
+
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -111,8 +112,13 @@ export const MenuEdit = (props) => {
                             <h3 className='menu-edit-header'>User dishes list</h3>
                             {
                                 storedUser?.userDishes?.length > 0 ?
-                                    <MenuList menu={storedUser.userDishes} isDisabled={menu.loading} deleteHandler={(date) => removeUserDish(date)}/>
-                                :   
+                                    <MenuList
+                                        menu={storedUser.userDishes}
+                                        isDisabled={menu.loading}
+                                        deleteHandler={(date) => removeUserDish(date)}
+                                        list = 'userlList'
+                                    />
+                                :
                                     <p>You haven't got any dishes yet</p>
                             }
                             <h3 className='menu-edit-header'>Add user dish</h3>
@@ -122,6 +128,6 @@ export const MenuEdit = (props) => {
                 </Fragment>
             }
             </div>
-        </Fragment>
+        </div>
     );
 }
