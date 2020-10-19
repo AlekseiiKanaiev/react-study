@@ -16,6 +16,7 @@ export const TableMenu = (props) => {
             <Table className='table' aria-label="simple table">
             <TableHead>
                 <TableRow>
+                    <TableCell>Title</TableCell>
                     <TableCell>Type</TableCell>
                     <TableCell align="right">Name</TableCell>
                     <TableCell align="right">Description</TableCell>
@@ -23,8 +24,11 @@ export const TableMenu = (props) => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {props.menu.map((item) => (
-                    <TableRow key={`${item.type}-${item.date}`}>
+                {props.menu.map((item, i) => (
+                    <TableRow key={`${i}-${item.date}`}>
+                        <TableCell component="th" scope="row">
+                            {item.title}
+                        </TableCell>
                         <TableCell component="th" scope="row">
                             {item.type}
                         </TableCell>

@@ -39,7 +39,7 @@ export const MenuEdit = (props) => {
         }
     }, [storedUser]);
 
-    // console.log(menu);
+    console.log(menu);
 
     const addUserDish = (item) => {
         console.log(item);

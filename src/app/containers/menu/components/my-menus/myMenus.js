@@ -20,7 +20,7 @@ export const MyMenus = (props) => {
     const user = JSON.parse(window.localStorage.getItem('user'));
     const {loading, user: storedUser} = useSelector(state => state.app);
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         if (!user && !storedUser) {
             props.history.push('/login', props.location.pathname);
@@ -50,10 +50,10 @@ export const MyMenus = (props) => {
         <Fragment>
             <SimpleAlert/>
             <h2>Saved user menus</h2>
-            {loading ? 
+            {loading ?
                 <Loader />
             :
-                isMenus ? 
+                isMenus ?
                     storedUser.userMenus.map((menu, i) => (
                         <Fragment key = {menu.date}>
                         {menu &&
@@ -73,9 +73,9 @@ export const MyMenus = (props) => {
                 :
                     <p>You haven't got any saved menus</p>
             }
-            
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogTitle id="form-dialog-title">Delete menu</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Are you shure you want to delete this menu?
