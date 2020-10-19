@@ -21,7 +21,7 @@ export const Carousel = (props) => {
         }
         if (props.search) {
             const children = Array.from(carousel.current.children);
-            console.log(children);
+            // console.log(children);
             const searchItem = children.findIndex(
                 (el) => el.firstChild.alt.toLowerCase().split(' ').some(word => word === props.search.toLowerCase())
                     || el.firstChild.alt.toLowerCase() === props.search.toLowerCase());
@@ -34,7 +34,7 @@ export const Carousel = (props) => {
     }, [props.search]);
 
     const onSelect = (item) => {
-        console.log(item)
+        // console.log(item)
         setSelect(item.name);
         const imgs = Array.from(carousel.current.querySelectorAll('.img'));
         const img = document.getElementById(`img-${props.title}-${item.date}`);
@@ -44,7 +44,7 @@ export const Carousel = (props) => {
             imgs.forEach(el => el.classList.remove('focused'));
             img.classList.add('focused');
         }
-        const selected = {...item, title: props.title};
+        const selected = {...item, title: props.title, position: props.position};
         props.onSelect(selected);
     }
 
@@ -58,8 +58,12 @@ export const Carousel = (props) => {
         children[rand].classList.add('active');
         onSelect(props.menu[rand]);
     }
-    console.log(props);
-    console.log(current)
+
+    const onDelete = () => {
+        props.onDelete(props.title);
+    }
+    // console.log(props);
+    // console.log(current)
     // onClick = {() => console.dir(carousel.current.querySelector('.active').nextSibling.innerText.split('\n')[0])}
     return (
         <Fragment>
@@ -102,12 +106,14 @@ export const Carousel = (props) => {
                         }
                     </div>
                     <div className='centred'>
-                        {select ?
+                        {/* {select ?
                             <h3 className='choice'>You choose: <span>{select}</span>!</h3>
                         :
                             <h3 className='choice'>{props.menu[current]?.name}</h3>
-                        }
+                        } */}
+                        <h3 className='choice'>{props.menu[current]?.name}</h3>
                         <button className='btn btn-warning random-button' onClick={setRandom}>Random</button>
+                        <button className='btn btn-danger random-button' onClick={onDelete}>Delete</button>
                     </div>
                 </Fragment>
                 :

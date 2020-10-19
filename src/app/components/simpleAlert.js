@@ -6,7 +6,7 @@ import { hideAlert } from '../../redux/app/actions';
 export const SimpleAlert = () => {
 
     const alert = useSelector(state => state.app.alert);
-    console.log(alert)
+    // console.log(alert)
     const dispatch = useDispatch();
 
     const hide = () => {
