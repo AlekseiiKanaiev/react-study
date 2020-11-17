@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {MonthTable} from './monthTable.js'
 import './table.scss';
 
 export const Table = (props) => {
@@ -40,7 +41,7 @@ export const Table = (props) => {
                 </p>
             </div>
             <div className='table-component'>
-                    <div className='header'>
+                <div className='header'>
                     <button  className='decreaseWeeks' onClick = {() => setCurWeek(curWeek - 1)} disabled = {curWeek === 0}>
                         <ArrowBackIosIcon />
                     </button>
@@ -91,6 +92,7 @@ export const Table = (props) => {
                     </table>
                 </div>
             </div>
+            <MonthTable />
         </Fragment>
     )
 }
