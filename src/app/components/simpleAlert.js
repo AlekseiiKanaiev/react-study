@@ -6,6 +6,7 @@ import { hideAlert } from '../../redux/app/actions';
 export const SimpleAlert = () => {
 
     const alert = useSelector(state => state.app.alert);
+    // console.log(alert)
     const dispatch = useDispatch();
 
     const hide = () => {
@@ -27,15 +28,20 @@ export const SimpleAlert = () => {
             mountOnEnter
             unmountOnExit
         >
-            <div className= {`alert alert-${alert.type || 'warning'} alert-dismissible`} style = {style} >
-                <strong>Внимание!</strong>
-                <p>
-                    {alert.text}
-                </p>
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={hide}>
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div>
+                {alert?.type &&
+                <div className= {`alert alert-${alert.type || 'warning'} alert-dismissible`} style = {style} >
+                    <strong>Внимание!</strong>
+                    <p>
+                        {alert.text}
+                    </p>
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={hide}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                }
             </div>
+
         </CSSTransition>
     );
 }

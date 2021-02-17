@@ -1,0 +1,17 @@
+.add-new-dish-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    button{
+        width: 50%;
+    }
+    .MuiFormControl-root.MuiTextField-root{
+        margin: 5px 0;
+        width: 100%;
+    }
+    .MuiFormControl-root.select-type{
+        margin: 5px 0 10px 0;
+        width: 100%;
+    }
+}

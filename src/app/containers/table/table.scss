@@ -1,0 +1,38 @@
+.MuiSvgIcon-root{
+    cursor: pointer !important;
+    & :hover{
+        color: red;
+    }
+}
+.decreaseWeeks .increaseWeeks {
+    cursor: pointer !important;
+}
+
+.table{
+    display: flex;
+}
+
+
+.weeks-table, .calendar-table {
+    border-collapse: separate;
+    border-spacing: 10px 10px;
+}
+.weeks-table td{
+    border: none !important;
+}
+.calendar-table {
+    td {
+        border: 1px solid #000 !important;
+        cursor: pointer;
+        &:hover{
+            background: rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+// .calendar-table td:hover{
+//     background: rgba(0, 0, 0, 0.5);
+// }
+.weeks-table td, .calendar-table td{
+    width: 100px;
+    height: 100px;
+}

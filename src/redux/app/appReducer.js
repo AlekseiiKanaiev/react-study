@@ -20,7 +20,7 @@ export const appReducer = (state = initialState, action) => {
             // console.log(action.payload);
             return ({...state, alert: {...action.payload, show: true}});
         case APP_HIDE_ALERT:
-            return ({...state, alert: {show: false}});
+            return ({...state, alert: {type: '', text: '', show: false}});
         case APP_SET_USER:
         case APP_UPDATE_USER:
         case APP_UPDATE_USER_SUCCESS:

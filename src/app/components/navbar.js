@@ -17,8 +17,8 @@ export const Navbar = (props) => {
     const {logout} = useContext(FirebaseContext);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
-    const user = useSelector(state => state.app.user) || JSON.parse(window.localStorage.getItem('user'));
-    // const user = useSelector(state => state.app.user);
+    const user = JSON.parse(window.localStorage.getItem('user'));
+    const storedUser = useSelector(state => state.app.user);
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -64,41 +64,51 @@ export const Navbar = (props) => {
                         <NavLink to = '/game' className="nav-link">Game</NavLink>
                     </li>
                     <li className="nav-item">
+                        <NavLink to = '/table' className="nav-link">Table</NavLink>
+                    </li>
+                    <li className="nav-item">
                         <NavLink to = '/menu' className="nav-link">Menu</NavLink>
                     </li>
+                    {storedUser?.roles === 'DIS' &&
+                        <li className="nav-item">
+                            <NavLink to = '/dis' className="nav-link">Dis</NavLink>
+                        </li>
+                    }
                 </ul>
             </div>
-            {user && 
-            <div>
-                <Button
-                    ref={anchorRef}
-                    aria-controls={open ? 'menu-list-grow' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleToggle}
-                    className = 'user-button'
-                    id = 'user-button'
-                >
-                    {user.userName || user.displayName}
-                </Button>
-                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{zIndex: 10}}>
-                {({ TransitionProps, placement }) => (
-                    <Grow
-                    {...TransitionProps}
-                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            {user ?
+                <div>
+                    <Button
+                        ref={anchorRef}
+                        aria-controls={open ? 'menu-list-grow' : undefined}
+                        aria-haspopup="true"
+                        onClick={handleToggle}
+                        className = 'user-button'
+                        id = 'user-button'
                     >
-                        <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                    <MenuItem onClick={() => window.location.assign('menu-edit')}>Edit dishes</MenuItem>
-                                    <MenuItem onClick={() => window.location.assign('my-menus')}>My menus</MenuItem>
-                                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                                </MenuList>
-                            </ClickAwayListener>
-                        </Paper>
-                    </Grow>
-                )}
-                </Popper>
-            </div>
+                        {user.userName || user.displayName}
+                    </Button>
+                    <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{zIndex: 10}}>
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                        {...TransitionProps}
+                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                        >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                                        <MenuItem onClick={() => window.location.assign('menu-edit')}>Edit dishes</MenuItem>
+                                        <MenuItem onClick={() => window.location.assign('my-menus')}>My menus</MenuItem>
+                                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                    </Popper>
+                </div>
+            :
+                <NavLink className="login-link" to = '/login'>Login</NavLink>
             }
         </nav>
     );
