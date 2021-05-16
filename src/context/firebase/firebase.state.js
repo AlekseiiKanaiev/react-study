@@ -26,6 +26,7 @@ const config = {
     messagingSenderId: process.env.REACT_APP_STORAGE_BUCKET,
     appId: process.env.REACT_APP_MESSAGING_SENDER_ID
 }
+
 firebase.initializeApp(config);
 
 export const FirebaseStateFunction = (props) => {
@@ -87,7 +88,7 @@ export const FirebaseStateFunction = (props) => {
             throw new Error('Server Error: ' + e.message);
         }
     }
-    
+
     const fetchNotes = async () => {
         showLoader();
         try{
@@ -139,14 +140,14 @@ export const FirebaseStateFunction = (props) => {
             } catch(e) {
                 console.log(e);
                 // throw new Error('Server Error: ' + e.message);
-            } 
+            }
         });
     }
 
     return (
-        <FirebaseContext.Provider 
+        <FirebaseContext.Provider
             value = {{
-                showLoader, 
+                showLoader,
                 hideLoader,
                 addNote,
                 removeNote,
