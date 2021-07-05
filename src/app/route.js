@@ -14,6 +14,8 @@ import { MyMenus } from './containers/menu/components/my-menus/myMenus';
 import { Dis } from './containers/dis/dis';
 import { Table } from './containers/table/table';
 import { Hooks } from './containers/hooks/hooks';
+import { Carousel } from './containers/carousel/carousel';
+
 // import { FirebaseContext } from '../context/firebase/firebase.context';
 
 export const Routes = () => {
@@ -37,6 +39,7 @@ export const Routes = () => {
             <Route path = '/dis' component = {Dis}/>
             <Route path = '/table' component = {Table}/>
             <Route path = '/hooks' component = {Hooks}/>
+            <Route path = '/carousel' component = {Carousel}/>
         </Switch>
     );
 }

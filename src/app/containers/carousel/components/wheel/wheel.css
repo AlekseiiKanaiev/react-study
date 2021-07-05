@@ -1,0 +1,26 @@
+.carousel-wheel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+}
+.carousel-item-content{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: none;
+    width: 500px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.item-cooment{
+    width: 250px;
+    /* margin: auto; */
+    margin-top: 50px;
+}

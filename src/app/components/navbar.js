@@ -70,6 +70,9 @@ export const Navbar = (props) => {
                         <NavLink to = '/hooks' className="nav-link">Hooks</NavLink>
                     </li>
                     <li className="nav-item">
+                        <NavLink to = '/carousel' className="nav-link">Carousel</NavLink>
+                    </li>
+                    <li className="nav-item">
                         <NavLink to = '/menu' className="nav-link">Menu</NavLink>
                     </li>
                     {storedUser?.roles === 'DIS' &&

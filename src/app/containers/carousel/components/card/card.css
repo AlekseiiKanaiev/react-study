@@ -1,0 +1,11 @@
+.carousel-card{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100px;
+    width: 100px;
+    background-color: blue;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
